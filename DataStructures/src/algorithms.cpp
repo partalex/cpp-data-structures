@@ -34,6 +34,7 @@ int main()
 	/****************************************************************************/
 
 	// std::all_of, std::none_of, std::any_of // C++ 11
+	// checks if a predicate is true for all, any or none of the elements in a range
 	/*
 	{
 		// all_of
@@ -96,7 +97,8 @@ int main()
 	}
 	//*/
 
-	// std::for_each, std::for_each_n
+	// std::for_each, std::for_each_n C++17(_n)
+	// applies a function to a range of elements or n elements
 	/*
 	{
 		// std::for_each
@@ -111,6 +113,7 @@ int main()
 	//*/
 
 	// std::ranges::for_each // C++20
+	// applies a function to a range of elements
 	/*
 	{
 		auto print = [](const auto& n) { std::cout << n << ' '; };
@@ -119,6 +122,7 @@ int main()
 	//*/
 
 	//  std::ranges::for_each_n // C++20
+	// applies a function object to the first n elements of a sequence
 	/*
 	{
 		struct ex {
@@ -134,6 +138,7 @@ int main()
 	//*/
 
 	// std::count, std::count_if
+	// returns the number of elements satisfying specific criteria
 	/*
 	{
 		std::copy(v.cbegin(), v.cend(), std::ostream_iterator<int>(std::cout, " "));
@@ -152,6 +157,7 @@ int main()
 	//*/
 
 	// std::ranges::count, std::ranges::count_if // C++20
+	// returns the number of elements satisfying specific criteria
 	/*
 	{
 		auto number_of_fives = std::ranges::count(v, 5);
@@ -162,6 +168,7 @@ int main()
 	//*/
 
 	// mismatch
+	// finds the first position where two ranges differ
 	/*
 	{
 		//string koka = "abcdfabc";
@@ -180,7 +187,8 @@ int main()
 	}
 	//*/
 
-	// std::ranges::mismatch  C++11
+	// std::ranges::mismatch  C++20
+	// finds the first position where two ranges differ
 	// ako ne postoji mismatch onda ispis puca, ne znam kako da proverim da li je res mismatch-a prazan
 	/*
 	{
@@ -211,6 +219,7 @@ int main()
 	//*/
 
 	// std::find, std::find_if, std::find_if_not
+	// finds the first element satisfying specific criteria
 	/*
 	{
 		std::vector<int> v{ 1, 2, 3, 4 };
@@ -236,8 +245,8 @@ int main()
 	}
 	//*/
 
-
 	// std::ranges::find, std::ranges::find_if, std::ranges::find_if_not C++20
+	// finds the first element satisfying specific criteria
 	/*
 	{
 		namespace ranges = std::ranges;
@@ -283,6 +292,7 @@ int main()
 	//*/
 
 	// std::find_end
+	// finds the last sequence of elements in a certain range
 	// poslednje ponavaljanje subkolekcije u kolekciji
 	/*
 	{
@@ -307,6 +317,7 @@ int main()
 	//*/
 
 	// std::ranges::find_end
+	// finds the last sequence of elements in a certain range
 	/*
 	{
 		auto print = [](const auto haystack, const auto needle)
@@ -347,6 +358,7 @@ int main()
 	//*/
 
 	// std::find_first_of
+	// searches for any one of a set of elements
 	/*
 	{
 		const std::vector<int> v{ 0, 3, 25, 5 };
@@ -366,6 +378,7 @@ int main()
 	//*/
 
 	// std::ranges::find_first_of C++20
+	// searches for any one of a set of elements
 	// primer sa cppreference-a nesto nece da se prevede
 	// poenta da se svi range-evi razlikuju sto mogu da uhvate celu kolekcinju; ne zattevaju begin end
 	/*
@@ -374,6 +387,7 @@ int main()
 	//*/
 
 	// std::adjacent_find
+	// finds the first two adjacent items that are equal (or satisfy a given predicate)
 	/*
 	{
 		std::vector<int> v1{ 0, 1, 2, 3, 40, 40, 41, 41, 5 };
@@ -398,6 +412,7 @@ int main()
 	//*/
 
 	// std::ranges::adjacent_find
+	// finds the first two adjacent items that are equal (or satisfy a given predicate)
 	/*
 	{
 		std::vector<int> v1{ 0, 1, 2, 3, 40, 40, 41, 41, 5 };
@@ -420,6 +435,7 @@ int main()
 	//*/
 
 	// std::search
+	// searches for a range of elements
 	// return iterataton gde ga je nasao
 	/*
 	{
@@ -434,6 +450,7 @@ int main()
 	//*/
 
 	// std::ranges::search C+20
+	// searches for a range of elements
 	// ovo je neki glup primer
 	/*
 	{
@@ -452,6 +469,7 @@ int main()
 	//*/
 
 	// std::search_n
+	// searches a range for a number of consecutive copies of an element
 	// trazi n rednih elemenata koji su jednak zadatoj vrednosti
 	/*
 	{
@@ -470,6 +488,7 @@ int main()
 	//*/
 
 	// std::ranges::search_n
+	// searches a range for a number of consecutive copies of an element
 	/*
 	{
 		auto nums = { 1, 2, 2, 3, 4, 1, 2, 2, 2, 1, 2, 2, 2, };
@@ -500,6 +519,7 @@ int main()
 	//*/
 
 	// std::ranges::starts_with C++23
+	// checks whether a range starts with another range
 	// ovo je nesto komplikovano
 	// u sustini je kako pocinje string, ali su primeru uzasno glupi i nelogicni
 	/*
@@ -541,6 +561,7 @@ int main()
 	//*/
 
 	// std::ranges::ends_with C++23
+	// checks whether a range starts with another range
 	// kako se zavrsava string
 	/*
 	{
