@@ -4028,6 +4028,7 @@ int main()
 	//*/
 
 	// std::ranges::iota, std::ranges::iota_result C++23
+	// fills a range with successive increments of the starting value
 	/*
 	{
 		std::list<int> l(10);
