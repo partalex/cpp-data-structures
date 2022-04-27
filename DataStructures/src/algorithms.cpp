@@ -1,15 +1,17 @@
 ﻿#include<algorithm>
 #include<array>
 #include<cassert>
-#include<complex>
-#include<compare>
 #include<cctype>
+#include<compare>
+#include<complex>
 #include<cstddef>
 #include<cstdint>
+#include<cstdlib>
 #include<functional>
 #include<iomanip>
 #include<iostream>
 #include<iterator>
+#include<memory>
 #include<numeric>
 #include<random>
 #include<ranges>
@@ -17,8 +19,8 @@
 #include<string_view>
 #include<thread>
 #include<type_traits>
-#include<vector>
 #include<utility>
+#include<vector>
 using namespace std;
 
 // fill vector with random values
@@ -1481,7 +1483,6 @@ int main()
 	// za vektor intova radi kao kruzna lista
 	/*
 	{
-
 		std::cout << std::left;
 
 		std::vector<int>          b{ 1, 2, 3, 4, 5, 6, 7 };
@@ -1776,7 +1777,6 @@ int main()
 	}
 	//*/
 
-
 	// std::partition
 	// divides a range of elements into two groups
 	/*
@@ -1911,7 +1911,6 @@ int main()
 		print("Sorted vector:   ", vi.begin(), vi.end());
 	}
 	//*/
-
 
 	// std::partition_point C++11
 	// locates the partition point of a partitioned range
@@ -4185,7 +4184,834 @@ int main()
 	// header <memory>
 	/****************************************************************************/
 
+	// std::uninitialized_copy
+	// copies a range of objects to an uninitialized area of memory
+	// ovo nece da se prevede, ne znam sta radi
+	/*
+	{
+		const char* v[] = { "This", "is", "an", "example" };
 
+		auto sz = std::size(v);
+
+		if (void* pbuf = std::aligned_alloc(alignof(std::string), sizeof(std::string) * sz))
+		{
+			try
+			{
+				auto first = static_cast<std::string*>(pbuf);
+				auto last = std::uninitialized_copy(std::begin(v), std::end(v), first);
+
+				for (auto it = first; it != last; ++it)
+					std::cout << *it << '_';
+				std::cout << '\n';
+
+				std::destroy(first, last);
+			}
+			catch (...) {}
+			std::free(pbuf);
+		}
+	}
+	//*/
+
+	// std::ranges::uninitialized_copy, std::ranges::uninitialized_copy_result C++20
+	// copies a range of objects to an uninitialized area of memory
+	// i ovo nece isto
+	/*
+	{
+		const char* v[] = { "This", "is", "an", "example" };
+
+		auto sz = std::size(v);
+
+		if (void* pbuf = std::aligned_alloc(alignof(std::string), sizeof(std::string) * sz))
+		{
+			try
+			{
+				auto first = static_cast<std::string*>(pbuf);
+				auto last = std::ranges::uninitialized_copy(std::begin(v), std::end(v), first);
+
+				for (auto it = first; it != last; ++it)
+					std::cout << *it << '_';
+				std::cout << '\n';
+
+				std::destroy(first, last);
+			}
+			catch (...) {}
+			std::free(pbuf);
+		}
+	}
+	//*/
+
+	// std::uninitialized_copy_n C++11
+	// copies a number of objects to an uninitialized area of memory
+	// nece da se prevede
+	/*
+	{
+		std::vector<std::string> v = { "This", "is", "an", "example" };
+
+		std::string* p;
+		std::size_t sz;
+		std::tie(p, sz) = std::get_temporary_buffer<std::string>(v.size());
+		sz = std::min(sz, v.size());
+
+		std::uninitialized_copy_n(v.begin(), sz, p);
+
+		for (std::string* i = p; i != p + sz; ++i) {
+			std::cout << *i << ' ';
+			i->~basic_string<char>();
+		}
+		std::return_temporary_buffer(p);
+	}
+	//*/
+
+	// std::ranges::uninitialized_copy_n, std::ranges::uninitialized_copy_n_result C++20
+	// copies a number of objects to an uninitialized area of memory
+	/*
+	{
+		const char* stars[]{ "Procyon", "Spica", "Pollux", "Deneb", "Polaris", };
+
+		constexpr int n{ 4 };
+		alignas(alignof(std::string)) char out[n * sizeof(std::string)];
+
+		try
+		{
+			auto first{ reinterpret_cast<std::string*>(out) };
+			auto last{ first + n };
+			auto ret{ std::ranges::uninitialized_copy_n(std::begin(stars), n, first, last) };
+
+			std::cout << "{ ";
+			for (auto it{ first }; it != ret.out; ++it)
+				std::cout << std::quoted(*it) << ", ";
+			std::cout << "};\n";
+
+			std::ranges::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "uninitialized_copy_n exception\n";
+		}
+	}
+	//*/
+
+	// std::uninitialized_fill
+	// copies an object to an uninitialized area of memory, defined by a range
+	// nece da radi
+	/*
+	{
+		std::string* p;
+		std::size_t sz;
+		std::tie(p, sz) = std::get_temporary_buffer<std::string>(4);
+
+		std::uninitialized_fill(p, p + sz, "Example");
+
+		for (std::string* i = p; i != p + sz; ++i) {
+			std::cout << *i << '\n';
+			i->~basic_string<char>();
+		}
+		std::return_temporary_buffer(p);
+	}
+	//*/
+
+	// std::ranges::uninitialized_fill C++20
+	// copies an object to an uninitialized area of memory, defined by a range
+	/*
+	{
+		constexpr int n{ 4 };
+		alignas(alignof(std::string)) char out[n * sizeof(std::string)];
+
+		try
+		{
+			auto first{ reinterpret_cast<std::string*>(out) };
+			auto last{ first + n };
+			//std::ranges::uninitialized_fill(first, last, "▄▀▄▀▄▀▄▀");
+			std::ranges::uninitialized_fill(first, last, "^_^_^_^_");
+
+			int count{ 1 };
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << count++ << ' ' << *it << '\n';
+			}
+
+			std::ranges::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "Exception!\n";
+		}
+	}
+	//*/
+
+	// std::uninitialized_fill_n
+	// copies an object to an uninitialized area of memory, defined by a start and a count
+	// nece da radi
+	/*
+	{
+		std::string* p;
+		std::size_t sz;
+		std::tie(p, sz) = std::get_temporary_buffer<std::string>(4);
+		std::uninitialized_fill_n(p, sz, "Example");
+
+		for (std::string* i = p; i != p + sz; ++i) {
+			std::cout << *i << '\n';
+			i->~basic_string<char>();
+		}
+		std::return_temporary_buffer(p);
+	}
+	//*/
+
+	// std::ranges::uninitialized_fill_n C++20
+	// copies an object to an uninitialized area of memory, defined by a start and a count
+	/*
+	{
+		constexpr int n{ 3 };
+		alignas(alignof(std::string)) char out[n * sizeof(std::string)];
+
+		try
+		{
+			auto first{ reinterpret_cast<std::string*>(out) };
+			auto last = std::ranges::uninitialized_fill_n(first, n, "cppreference");
+
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << *it << '\n';
+			}
+
+			std::ranges::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "Exception!\n";
+		}
+	}
+	//*/
+
+	// std::uninitialized_move C++17
+	// moves a range of objects to an uninitialized area of memory
+	// nece da radi
+	/*
+	{
+		auto print = [](auto rem, auto first, auto last) {
+			for (std::cout << rem; first != last; ++first)
+				std::cout << std::quoted(*first) << ' ';
+			std::cout << '\n';
+		};
+
+		std::string in[]{ "Home", "Work!" };
+		print("initially, in: ", std::begin(in), std::end(in));
+
+		if (
+			constexpr auto sz = std::size(in);
+			void* out = std::aligned_alloc(alignof(std::string), sizeof(std::string) * sz)
+			) {
+			try {
+				auto first{ static_cast<std::string*>(out) };
+				auto last{ first + sz };
+				std::uninitialized_move(std::begin(in), std::end(in), first);
+
+				print("after move, in: ", std::begin(in), std::end(in));
+				print("after move, out: ", first, last);
+
+				std::destroy(first, last);
+			}
+			catch (...) {
+				std::cout << "Exception!\n";
+			}
+			std::free(out);
+		}
+	}
+	//*/
+
+	// std::ranges::uninitialized_move, std::ranges::uninitialized_move_result C++20
+	// moves a range of objects to an uninitialized area of memory
+	/*
+	{
+		auto print = [](auto rem, auto first, auto last) {
+			for (std::cout << rem; first != last; ++first)
+				std::cout << std::quoted(*first) << ' ';
+			std::cout << '\n';
+		};
+
+		std::string in[]{ "Home", "World" };
+		print("initially, in: ", std::begin(in), std::end(in));
+
+		if (
+			constexpr auto sz = std::size(in);
+			void* out = std::aligned_alloc(alignof(std::string), sizeof(std::string) * sz)
+			) {
+			try {
+				auto first{ static_cast<std::string*>(out) };
+				auto last{ first + sz };
+				std::ranges::uninitialized_move(std::begin(in), std::end(in), first, last);
+
+				print("after move, in: ", std::begin(in), std::end(in));
+				print("after move, out: ", first, last);
+
+				std::ranges::destroy(first, last);
+			}
+			catch (...) {
+				std::cout << "Exception!\n";
+			}
+			std::free(out);
+		}
+	}
+	//*/
+
+	// std::uninitialized_move_n C++17
+	// moves a number of objects to an uninitialized area of memory
+	/*
+	{
+		auto print = [](auto rem, auto first, auto last) {
+			for (std::cout << rem; first != last; ++first)
+				std::cout << std::quoted(*first) << ' ';
+			std::cout << '\n';
+		};
+
+		std::string in[]{ "One", "Definition", "Rule" };
+		print("initially, in: ", std::begin(in), std::end(in));
+
+		if (
+			constexpr auto sz = std::size(in);
+			void* out = std::aligned_alloc(alignof(std::string), sizeof(std::string) * sz)
+			) {
+			try {
+				auto first{ static_cast<std::string*>(out) };
+				auto last{ first + sz };
+				std::uninitialized_move_n(std::begin(in), sz, first);
+
+				print("after move, in: ", std::begin(in), std::end(in));
+				print("after move, out: ", first, last);
+
+				std::destroy(first, last);
+			}
+			catch (...) {
+				std::cout << "Exception!\n";
+			}
+			std::free(out);
+		}
+	}
+	//*/
+
+	// std::ranges::uninitialized_move_n, std::ranges::uninitialized_move_n_result C++20
+	// moves a number of objects to an uninitialized area of memory
+	// ne radi
+	/*
+	{
+		auto print = [](auto rem, auto first, auto last) {
+			for (std::cout << rem; first != last; ++first)
+				std::cout << std::quoted(*first) << ' ';
+			std::cout << '\n';
+		};
+
+		std::string in[]{ "No", "Diagnostic", "Required", };
+		print("initially, in: ", std::begin(in), std::end(in));
+
+		if (
+			constexpr auto sz = std::size(in);
+			void* out = std::aligned_alloc(alignof(std::string), sizeof(std::string) * sz)
+			) {
+			try {
+				auto first{ static_cast<std::string*>(out) };
+				auto last{ first + sz };
+				std::ranges::uninitialized_move_n(std::begin(in), sz, first, last);
+
+				print("after move, in: ", std::begin(in), std::end(in));
+				print("after move, out: ", first, last);
+
+				std::ranges::destroy(first, last);
+			}
+			catch (...) {
+				std::cout << "Exception!\n";
+			}
+			std::free(out);
+		}
+	}
+	//*/
+
+	// std::uninitialized_default_construct C++17
+	// constructs objects by default-initialization in an uninitialized area of memory, defined by a range
+	/*
+	{
+		struct S{ std::string m{ "Default value" }; };
+
+		constexpr int n{ 3 };
+		alignas(alignof(S)) unsigned char mem[n * sizeof(S)];
+
+		try
+		{
+			auto first{ reinterpret_cast<S*>(mem) };
+			auto last{ first + n };
+
+			std::uninitialized_default_construct(first, last);
+
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << it->m << '\n';
+			}
+
+			std::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "Exception!\n";
+		}
+
+		// Notice that for "trivial types" the uninitialized_default_construct
+		// generally does not zero-fill the given uninitialized memory area.
+		int v[]{ 1, 2, 3, 4 };
+		const int original[]{ 1, 2, 3, 4 };
+		std::uninitialized_default_construct(std::begin(v), std::end(v));
+		// for (const int i : v) { std::cout << i << ' '; }
+		// Maybe undefined behavior, pending CWG 1997.
+		std::cout <<
+			(std::memcmp(v, original, sizeof(v)) == 0 ? "Unmodified\n" : "Modified\n");
+		// The result is unspecified.
+	}
+	//*/
+
+	// std::ranges::uninitialized_default_construct C++20
+	// constructs objects by default-initialization in an uninitialized area of memory, defined by a range
+	/*
+	{
+		//struct S { std::string m{ "▄▀▄▀▄▀▄▀" }; };
+		struct S { std::string m{ "^_^_^_^_" }; };
+
+		constexpr int n{ 4 };
+		alignas(alignof(S)) char out[n * sizeof(S)];
+
+		try
+		{
+			auto first{ reinterpret_cast<S*>(out) };
+			auto last{ first + n };
+
+			std::ranges::uninitialized_default_construct(first, last);
+
+			auto count{ 1 };
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << count++ << ' ' << it->m << '\n';
+			}
+
+			std::ranges::destroy(first, last);
+		}
+		catch (...) { std::cout << "Exception!\n"; }
+
+		// Notice that for "trivial types" the uninitialized_default_construct
+		// generally does not zero-fill the given uninitialized memory area.
+		constexpr char etalon[]{ 'A', 'B', 'C', 'D', '\n' };
+		char v[]{ 'A', 'B', 'C', 'D', '\n' };
+		std::ranges::uninitialized_default_construct(std::begin(v), std::end(v));
+		if (std::memcmp(v, etalon, sizeof(v)) == 0) {
+			std::cout << "  ";
+			// Maybe undefined behavior, pending CWG 1997:
+			// for (const char c : v) { std::cout << c << ' '; }
+			for (const char c : etalon) { std::cout << c << ' '; }
+		}
+		else {
+			std::cout << "Unspecified\n";
+		}
+	}
+	//*/
+
+	// std::uninitialized_default_construct_n C++17
+	// constructs objects by default-initialization in an uninitialized area of memory, defined by a start and a count
+	/*
+	{
+		struct S { std::string m{ "Default value" }; };
+
+		constexpr int n{ 3 };
+		alignas(alignof(S)) unsigned char mem[n * sizeof(S)];
+
+		try
+		{
+			auto first{ reinterpret_cast<S*>(mem) };
+			auto last = std::uninitialized_default_construct_n(first, n);
+
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << it->m << '\n';
+			}
+
+			std::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "Exception!\n";
+		}
+
+		// Notice that for "trivial types" the uninitialized_default_construct_n
+		// generally does not zero-initialize the given uninitialized memory area.
+		int v[]{ 1, 2, 3, 4 };
+		const int original[]{ 1, 2, 3, 4 };
+		std::uninitialized_default_construct_n(std::begin(v), std::size(v));
+		// for (const int i : v) { std::cout << i << ' '; }
+		// Maybe undefined behavior, pending CWG 1997.
+		std::cout <<
+			(std::memcmp(v, original, sizeof(v)) == 0 ? "Unmodified\n" : "Modified\n");
+		// The result is unspecified.
+	}
+	//*/
+
+	// std::ranges::uninitialized_default_construct_n C++20
+	// constructs objects by default-initialization in an uninitialized area of memory, defined by a start and count
+	/*
+	{
+		//struct S { std::string m{ "█▓▒░ █▓▒░ " }; };
+		struct S { std::string m{ "43210 43210" }; };
+
+		constexpr int n{ 4 };
+		alignas(alignof(S)) char out[n * sizeof(S)];
+
+		try
+		{
+			auto first{ reinterpret_cast<S*>(out) };
+			auto last = std::ranges::uninitialized_default_construct_n(first, n);
+
+			auto count{ 1 };
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << count++ << ' ' << it->m << '\n';
+			}
+
+			std::ranges::destroy(first, last);
+		}
+		catch (...) { std::cout << "Exception!\n"; }
+
+		// Notice that for "trivial types" the uninitialized_default_construct_n
+		// generally does not zero-fill the given uninitialized memory area.
+		constexpr int etalon[]{ 1, 2, 3, 4, 5, 6 };
+		int v[]{ 1, 2, 3, 4, 5, 6 };
+		std::ranges::uninitialized_default_construct_n(std::begin(v), std::size(v));
+		if (std::memcmp(v, etalon, sizeof(v)) == 0) {
+			// Maybe undefined behavior, pending CWG 1997:
+			// for (const int i : v) { std::cout << i << ' '; }
+			for (const int i : etalon) { std::cout << i << ' '; }
+		}
+		else {
+			std::cout << "Unspecified!";
+		}
+		std::cout << '\n';
+	}
+	//*/
+
+	// std::uninitialized_value_construct C++17
+	// constructs objects by value-initialization in an uninitialized area of memory, defined by a range
+	/*
+	{
+		struct S { std::string m{ "Default value" }; };
+
+		constexpr int n{ 3 };
+		alignas(alignof(S)) unsigned char mem[n * sizeof(S)];
+
+		try
+		{
+			auto first{ reinterpret_cast<S*>(mem) };
+			auto last{ first + n };
+
+			std::uninitialized_value_construct(first, last);
+
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << it->m << '\n';
+			}
+
+			std::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "Exception!\n";
+		}
+
+		// Notice that for "trivial types" the uninitialized_value_construct
+		// zero-fills the given uninitialized memory area.
+		int v[]{ 1, 2, 3, 4 };
+		for (const int i : v) { std::cout << i << ' '; }
+		std::cout << '\n';
+		std::uninitialized_value_construct(std::begin(v), std::end(v));
+		for (const int i : v) { std::cout << i << ' '; }
+		std::cout << '\n';
+	}
+	//*/
+
+	// std::ranges::uninitialized_value_construct C++20
+	// constructs objects by value-initialization in an uninitialized area of memory, defined by a range
+	/*
+	{
+		//struct S { std::string m{ "▄▀▄▀▄▀▄▀" }; };
+		struct S { std::string m{ "^_^_^_^_" }; };
+
+		constexpr int n{ 4 };
+		alignas(alignof(S)) char out[n * sizeof(S)];
+
+		try
+		{
+			auto first{ reinterpret_cast<S*>(out) };
+			auto last{ first + n };
+
+			std::ranges::uninitialized_value_construct(first, last);
+
+			auto count{ 1 };
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << count++ << ' ' << it->m << '\n';
+			}
+
+			std::ranges::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "Exception!\n";
+		}
+
+		// Notice that for "trivial types" the uninitialized_value_construct
+		// zero-fills the given uninitialized memory area.
+		int v[]{ 0, 1, 2, 3 };
+		std::cout << ' ';
+		for (const int i : v) { std::cout << ' ' << static_cast<char>(i + 'A'); }
+		std::cout << "\n ";
+		std::ranges::uninitialized_value_construct(std::begin(v), std::end(v));
+		for (const int i : v) { std::cout << ' ' << static_cast<char>(i + 'A'); }
+		std::cout << '\n';
+	}
+	//*/
+
+	// std::uninitialized_value_construct_n C++17
+	// constructs objects by value-initialization in an uninitialized area of memory, defined by a start and a count
+	/*
+	{
+		struct S { std::string m{ "Default value" }; };
+
+		constexpr int n{ 3 };
+		alignas(alignof(S)) unsigned char mem[n * sizeof(S)];
+
+		try
+		{
+			auto first{ reinterpret_cast<S*>(mem) };
+			auto last = std::uninitialized_value_construct_n(first, n);
+
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << it->m << '\n';
+			}
+
+			std::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "Exception!\n";
+		}
+
+		// Notice that for "trivial types" the uninitialized_value_construct_n
+		// zero-initializes the given uninitialized memory area.
+		int v[]{ 1, 2, 3, 4 };
+		for (const int i : v) { std::cout << i << ' '; }
+		std::cout << '\n';
+		std::uninitialized_value_construct_n(std::begin(v), std::size(v));
+		for (const int i : v) { std::cout << i << ' '; }
+	}
+	//*/
+
+	// std::ranges::uninitialized_value_construct_n C++20
+	// constructs objects by value-initialization in an uninitialized area of memory, defined by a start and a count
+	/*
+	{
+		//struct S { std::string m{ "█▓▒░ █▓▒░ █▓▒░ " }; };
+		struct S { std::string m{ "3210 3210 3210" }; };
+
+		constexpr int n{ 4 };
+		alignas(alignof(S)) char out[n * sizeof(S)];
+
+		try
+		{
+			auto first{ reinterpret_cast<S*>(out) };
+			auto last = std::ranges::uninitialized_value_construct_n(first, n);
+
+			auto count{ 1 };
+			for (auto it{ first }; it != last; ++it) {
+				std::cout << count++ << ' ' << it->m << '\n';
+			}
+
+			std::ranges::destroy(first, last);
+		}
+		catch (...)
+		{
+			std::cout << "Exception!\n";
+		}
+
+		// Notice that for "trivial types" the uninitialized_value_construct_n
+		// zero-initializes the given uninitialized memory area.
+		int v[]{ 1, 2, 3, 4, 5, 6, 7, 8 };
+		std::cout << ' ';
+		for (const int i : v) { std::cout << i << ' '; }
+		std::cout << "\n ";
+		std::ranges::uninitialized_value_construct_n(std::begin(v), std::size(v));
+		for (const int i : v) { std::cout << i << ' '; }
+		std::cout << '\n';
+	}
+	//*/
+
+	// std::destroy C++17
+	// destroys a range of objects
+	/*
+	{
+		struct Tracer {
+			int value;
+			~Tracer() { std::cout << value << " destructed\n"; }
+		};
+
+		alignas(Tracer) unsigned char buffer[sizeof(Tracer) * 8];
+
+		for (int i = 0; i < 8; ++i)
+			new(buffer + sizeof(Tracer) * i) Tracer{ i }; //manually construct objects
+
+		auto ptr = std::launder(reinterpret_cast<Tracer*>(buffer));
+
+		std::destroy(ptr, ptr + 8);
+	}
+	//*/
+
+	// std::ranges::destroy C++20
+	// destroys a range of objects
+	/*
+	{
+		struct Tracer {
+			int value;
+			~Tracer() { std::cout << value << " destructed\n"; }
+		};
+
+		alignas(Tracer) unsigned char buffer[sizeof(Tracer) * 8];
+
+		for (int i = 0; i < 8; ++i)
+			new(buffer + sizeof(Tracer) * i) Tracer{ i }; //manually construct objects
+
+		auto ptr = std::launder(reinterpret_cast<Tracer*>(buffer));
+
+		std::ranges::destroy(ptr, ptr + 8);
+	}
+	//*/
+
+	// std::destroy_n C++17
+	// destroys a number of objects in a range
+	/*
+	{
+		struct Tracer {
+			int value;
+			~Tracer() { std::cout << value << " destructed\n"; }
+		};
+
+		alignas(Tracer) unsigned char buffer[sizeof(Tracer) * 8];
+
+		for (int i = 0; i < 8; ++i)
+			new(buffer + sizeof(Tracer) * i) Tracer{ i }; //manually construct objects
+
+		auto ptr = std::launder(reinterpret_cast<Tracer*>(buffer));
+
+		std::destroy_n(ptr, 8);
+	}
+	//*/
+
+	// std::ranges::destroy_n C++20
+	// destroys a number of objects in a range
+	/*
+	{
+		struct Tracer {
+			int value;
+			~Tracer() { std::cout << value << " destructed\n"; }
+		};
+
+		alignas(Tracer) unsigned char buffer[sizeof(Tracer) * 8];
+
+		for (int i = 0; i < 8; ++i)
+			new(buffer + sizeof(Tracer) * i) Tracer{ i }; //manually construct objects
+
+		auto ptr = std::launder(reinterpret_cast<Tracer*>(buffer));
+
+		std::ranges::destroy_n(ptr, 8);
+	}
+	//*/
+
+	// std::destroy_at C++17
+	// destroys an object at a given address
+	/*
+	{
+		struct Tracer {
+			int value;
+			~Tracer() { std::cout << value << " destructed\n"; }
+		};
+
+		alignas(Tracer) unsigned char buffer[sizeof(Tracer) * 8];
+
+		for (int i = 0; i < 8; ++i)
+			new(buffer + sizeof(Tracer) * i) Tracer{ i }; //manually construct objects
+
+		auto ptr = std::launder(reinterpret_cast<Tracer*>(buffer));
+
+		for (int i = 0; i < 8; ++i)
+			std::destroy_at(ptr + i);
+	}
+	//*/
+
+	// std::ranges::destroy_at C++20
+	// destroys an object at a given address
+	/*
+	{
+		struct Tracer {
+			int value;
+			~Tracer() { std::cout << value << " destructed\n"; }
+		};
+
+		alignas(Tracer) unsigned char buffer[sizeof(Tracer) * 8];
+
+		for (int i = 0; i < 8; ++i)
+			new(buffer + sizeof(Tracer) * i) Tracer{ i }; //manually construct objects
+
+		auto ptr = std::launder(reinterpret_cast<Tracer*>(buffer));
+
+		for (int i = 0; i < 8; ++i)
+			std::ranges::destroy_at(ptr + i);
+
+	}
+	//*/
+
+	// std::construct_at C++20
+	// creates an object at a given address
+	/*
+	{
+		struct S {
+			int x;
+			float y;
+			double z;
+
+			S(int x, float y, double z) : x{ x }, y{ y }, z{ z } { std::cout << "S::S();\n"; }
+			~S() { std::cout << "S::~S();\n"; }
+
+			void print() const {
+				std::cout << "S { x=" << x << "; y=" << y << "; z=" << z << "; };\n";
+			}
+		};
+
+		alignas(S) unsigned char storage[sizeof(S)];
+
+		S* ptr = std::construct_at(reinterpret_cast<S*>(storage), 42, 2.71828f, 3.1415);
+		ptr->print();
+
+		std::destroy_at(ptr);
+	}
+	//*/
+
+	// std::ranges::construct_at C++20
+	// creates an object at a given address
+	/*
+	{
+		struct S {
+			int x;
+			float y;
+			double z;
+
+			S(int x, float y, double z) : x{ x }, y{ y }, z{ z } { std::cout << "S::S();\n"; }
+			~S() { std::cout << "S::~S();\n"; }
+
+			void print() const {
+				std::cout << "S { x=" << x << "; y=" << y << "; z=" << z << "; };\n";
+			}
+		};
+
+		alignas(S) unsigned char buf[sizeof(S)];
+
+		S* ptr = std::ranges::construct_at(reinterpret_cast<S*>(buf), 42, 2.71828f, 3.1415);
+		ptr->print();
+
+		std::ranges::destroy_at(ptr);
+	}
+	//*/
 
 	/****************************************************************************/
 	// C library
@@ -4257,4 +5083,3 @@ int main()
 {
 }
 //*/
-
