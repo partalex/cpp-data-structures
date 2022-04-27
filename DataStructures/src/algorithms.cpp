@@ -590,6 +590,7 @@ int main()
 	/****************************************************************************/
 
 	// std::copy, std::copy_if C++11
+	// copies a range of elements to a new location
 	/*
 	{
 		std::vector<int> from_vector(10);
@@ -630,6 +631,7 @@ int main()
 	//*/
 
 	// std::ranges::copy, std::ranges::copy_if, std::ranges::copy_result, std::ranges::copy_if_result C++20
+	// copies a range of elements to a new location
 	/*
 	{
 		std::vector<int> from_vector(10);
@@ -660,6 +662,7 @@ int main()
 	//*/
 
 	// std::copy_n C++11
+	// copies a range of elements to a new location
 	/*
 	{
 		std::string in = "1234567890";
@@ -678,6 +681,7 @@ int main()
 	//*/
 
 	// std::ranges::copy_n, std::ranges::copy_n_result
+	// copies a range of elements to a new location
 	/*
 	{
 		const std::string_view in{ "ABCDEFGH" };
@@ -697,6 +701,7 @@ int main()
 	//*/
 
 	// std::copy_backward
+	// copies a range of elements in backwards order
 	// ako se kopira nedovoljan broj elemenata onda se nalepi posledji elem na prazna mesta
 	/*
 	{
@@ -714,6 +719,7 @@ int main()
 	//*/
 
 	// std::ranges::copy_backward, std::ranges::copy_backward_result C++20
+	// copies a range of elements in backwards order
 	/*
 	{
 		auto print = [](std::string_view rem, std::ranges::forward_range auto const& r) {
@@ -741,6 +747,7 @@ int main()
 	//*/
 
 	// std::move
+	// moves a range of elements to a new location
 	/*
 	{
 		auto f = [](int n)
@@ -762,6 +769,7 @@ int main()
 	//*/
 
 	// std::ranges::move, std::ranges::move_result C++20
+	// moves a range of elements to a new location
 	/*
 	{
 		using namespace std::literals::chrono_literals;
@@ -785,6 +793,7 @@ int main()
 	//*/
 
 	// std::move_backward C++11
+	// moves a range of elements to a new location in backwards order
 	/*
 	{
 		using container = std::vector<std::string>;
@@ -816,6 +825,7 @@ int main()
 	//*/
 
 	// std::ranges::move_backward, std::ranges::move_backward_result C++20
+	// moves a range of elements to a new location in backwards order
 	// isto kao i ovo gore; stoga nista nije napisano nista	
 	/*
 	{
@@ -823,6 +833,7 @@ int main()
 	//*/
 
 	// std::fill
+	// copy-assigns the given value to every element in a range
 	/*
 	{
 		std::vector<int> v{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -834,6 +845,7 @@ int main()
 	//*/
 
 	// std::ranges::fill C++20
+	// assigns a range of elements a certain value
 	/*
 	{
 		std::vector<int> v{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -851,6 +863,7 @@ int main()
 	//*/
 
 	// std::fill_n	
+	// copy-assigns the given value to N elements in a range
 	/*
 	{
 		std::vector<int> v1{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -861,6 +874,7 @@ int main()
 	//*/
 
 	// std::ranges::fill_n C++20
+	// assigns a value to a number of elements
 	/*
 	{
 		constexpr auto n{ 8 };
@@ -962,6 +976,7 @@ int main()
 	//*/
 
 	// std::ranges::generate C++20
+	// saves the result of a function in a range
 	/*
 	{
 		auto dice = []() {
@@ -1000,6 +1015,7 @@ int main()
 	//*/
 
 	// std::ranges::generate_n C++20
+	// assigns the results of successive function calls to N elements in a range
 	/*
 	{
 		auto dice = []() {
@@ -1024,6 +1040,7 @@ int main()
 	//*/
 
 	//std::remove, std::remove_if
+	// removes elements satisfying specific criteria
 	/*
 	{
 		std::string str1 = "Text with some   spaces";
@@ -1049,6 +1066,7 @@ int main()
 	//*/
 
 	// std::ranges::remove, std::ranges::remove_if C++20
+	// removes elements satisfying specific criteria
 	/*
 	{
 		std::string v1{ "No - Diagnostic - Required" };
@@ -1079,6 +1097,7 @@ int main()
 	//*/
 
 	// std::remove_copy, std::remove_copy_if
+	// copies a range of elements omitting those that satisfy specific criteria
 	/*
 	{
 		std::string str = "#Return #Value #Optimization";
@@ -1104,6 +1123,7 @@ int main()
 	//*/
 
 	// std::ranges::remove_copy, std::ranges::remove_copy_if, std::ranges::remove_copy_result, std::ranges::remove_copy_if_result C++20
+	// copies a range of elements omitting those that satisfy specific criteria
 	/*
 	{
 		auto print = [](const auto rem, const auto& v) {
@@ -1141,6 +1161,7 @@ int main()
 	//*/
 
 	// std::replace, std::replace_if
+	// replaces all values satisfying specific criteria with another value
 	/*
 	{
 		std::array<int, 10> s{ 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 };
@@ -1159,6 +1180,7 @@ int main()
 	//*/
 
 	// std::ranges::replace, std::ranges::replace_if C++20
+	// replaces all values satisfying specific criteria with another value
 	/*
 	{
 		auto print = [](const auto& v) {
@@ -1179,6 +1201,7 @@ int main()
 	//*/
 
 	// std::replace_copy, std::replace_copy_if
+	// copies a range, replacing elements satisfying specific criteria with another value
 	/*
 	{
 		std::vector<int> v{ 5, 7, 4, 2, 8, 6, 1, 9, 0, 3 };
@@ -1210,6 +1233,7 @@ int main()
 	//*/
 
 	// std::ranges::replace_copy, std::ranges::replace_copy_if, std::ranges::replace_copy_result, std::ranges::replace_copy_if_result C++20
+	// copies a range, replacing elements satisfying specific criteria with another value
 	/*
 	{
 		auto print = [](const auto rem, const auto& v) {
@@ -1235,6 +1259,7 @@ int main()
 	//*/
 
 	// std::swap
+	// swaps the values of two objects
 	/*
 	{
 		int min = 1;
@@ -1247,6 +1272,7 @@ int main()
 	//*/
 
 	// std::swap_ranges
+	// swaps two ranges of elements
 	/*
 	{
 		auto print = [](auto comment, auto const& seq) {
@@ -1269,7 +1295,8 @@ int main()
 	}
 	//*/
 
-	// std::ranges::swap_ranges, std::ranges::swap_ranges_result
+	// std::ranges::swap_ranges, std::ranges::swap_ranges_result C++20
+	// swaps two ranges of elements
 	/*
 	{
 		auto print = [](std::string_view name, auto const& seq, std::string_view term = "\n") {
@@ -1302,6 +1329,7 @@ int main()
 	//*/
 
 	// std::iter_swap
+	// swaps the elements pointed to by two iterators
 	// ovaj primer nesto ne radi
 	/*
 	{
@@ -1323,7 +1351,8 @@ int main()
 	}
 	//*/
 
-	//std::reverse
+	// std::reverse
+	// reverses the order of elements in a range
 	/*
 	{
 		std::cout << "vector" << '\n';
@@ -1345,6 +1374,7 @@ int main()
 	//*/
 
 	// std::ranges::reverse C++20
+	// reverses the order of elements in a range
 	/*
 	{
 		std::string s{ "ABCDEF" };
@@ -1364,6 +1394,7 @@ int main()
 	//*/
 
 	// std::reverse_copy
+	// creates a copy of a range that is reversed
 	/*
 	{
 		auto print = [](std::vector<int> const& v) {
@@ -1386,6 +1417,7 @@ int main()
 	//*/
 
 	// std::ranges::reverse_copy, std::ranges::reverse_copy_result C++20
+	// creates a copy of a range that is reversed
 	/*
 	{
 		std::string x{ "12345" }, y(x.size(), ' ');
@@ -1398,6 +1430,7 @@ int main()
 	//*/
 
 	// std::rotate
+	// rotates the order of elements in a range
 	// moze da se koristi za n pa i jednu ratociju levo / desno
 	/*
 	{
@@ -1425,6 +1458,7 @@ int main()
 	//*/
 
 	// std::ranges::rotate C++20
+	// rotates the order of elements in a range
 	/*
 	{
 		std::string s(16, ' ');
@@ -1461,6 +1495,7 @@ int main()
 	//*/
 
 	// std::rotate_copy
+	// copies and rotate a range of elements
 	/*
 	{
 		std::vector<int> src = { 1, 2, 3, 4, 5 };
@@ -1482,6 +1517,7 @@ int main()
 	//*/
 
 	// std::ranges::rotate_copy, std::ranges::rotate_copy_result C++20
+	// copies and rotate a range of elements
 	/*
 	{
 		std::vector<int> src{ 1, 2, 3, 4, 5 };
@@ -1500,6 +1536,7 @@ int main()
 	//*/
 
 	// std::shift_left, std::shift_right C++20
+	// shifts elements in a range
 	// ovo se nesto cudno ponasa ako je vekotr stringova, brise karaktere koji ispadnu u siftu
 	// za vektor intova radi kao kruzna lista
 	/*
@@ -1548,12 +1585,14 @@ int main()
 
 
 	// std::ranges::shift_left, std::ranges::shift_right C++23
+	// shifts elements in a range
 	// isto kao prethnodno samo ranges moze bez begin i end da prihvati; stoga je bez primera
 	/*
 	{}
 	//*/
 
 	// std::random_shuffle, std::shuffle C++11 or C++17
+	// randomly re-orders elements in a range
 	/*
 	{
 		std::vector<int> v = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -1569,6 +1608,7 @@ int main()
 	//*/
 
 	// std::ranges::shuffle C++20
+	// randomly re-orders elements in a range
 	/*
 	{
 		auto print = [](const auto& a) {
@@ -1722,6 +1762,7 @@ int main()
 	//*/
 
 	// std::ranges::unique_copy, std::ranges::unique_copy_result C++20
+	// creates a copy of some range of elements that contains no consecutive duplicates
 	/*
 	{
 		auto print = [](const auto& rem, const auto& v) {
@@ -1755,6 +1796,11 @@ int main()
 	}
 	//*/
 
+	/****************************************************************************/
+	// Partitioning operations
+	// header <algorithm>
+	/****************************************************************************/
+
 	// std::is_partitioned C++11
 	// determines if the range is partitioned by the given predicate
 	// ne znam sta je ovo, nema mi smisla
@@ -1776,6 +1822,7 @@ int main()
 	//*/
 
 	// std::ranges::is_partitioned C++20
+	// determines if the range is partitioned by the given predicate
 	/*
 	{
 		std::array<int, 9> v;
@@ -1817,6 +1864,7 @@ int main()
 	//*/
 
 	// std::ranges::partition
+	// divides a range of elements into two groups
 	/*
 	{
 		std::ostream_iterator<int> cout{ std::cout, " " };
@@ -1863,6 +1911,7 @@ int main()
 	//*/
 
 	// std::ranges::partition_copy, std::ranges::partition_copy_result C++20
+	// copies a range dividing the elements into two groups
 	/*
 	{
 		const auto in = { 'N', '3', 'U', 'M', '1', 'B', '4', 'E', '1', '5', 'R', '9' };
@@ -1898,6 +1947,7 @@ int main()
 	//*/
 
 	// std::ranges::stable_partition C++20
+	// copies a range dividing the elements into two groups
 	/*
 	{
 		auto print = [](const auto rem, auto first, auto last, bool end = true) {
@@ -1959,6 +2009,7 @@ int main()
 	//*/
 
 	// std::ranges::partition_point C++20
+	// locates the partition point of a partitioned range
 	/*
 	{
 		auto print_seq = [](auto rem, auto first, auto last) {
