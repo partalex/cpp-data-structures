@@ -2144,6 +2144,7 @@ int main()
 	//*/
 
 	// std::ranges::sort C++20
+	// sorts a range into ascending order
 	/*
 	{
 		void print(auto comment, auto const& seq, char term = ' ') {
@@ -2220,6 +2221,7 @@ int main()
 	//*/
 
 	// std::ranges::partial_sort C++20
+	// sorts the first N elements of a range
 	/*
 	{
 		auto print = [](const auto& v) {
@@ -2275,8 +2277,8 @@ int main()
 	}
 	//*/
 
-
 	// std::ranges::partial_sort_copy, std::ranges::partial_sort_copy_result C++20
+	// copies and partially sorts a range of elements
 	/*
 	{
 		auto print = [](std::string_view rem, std::ranges::input_range auto const& v)
@@ -2307,6 +2309,7 @@ int main()
 	//*/
 
 	// std::stable_sort
+	// sorts a range of elements while preserving order between equal elements
 	/*
 	{
 		struct Employee
@@ -2336,6 +2339,7 @@ int main()
 	//*/
 
 	// std::ranges::stable_sort C++20
+	// sorts a range of elements while preserving order between equal elements
 	/*
 	{
 		struct Particle {
@@ -2425,6 +2429,7 @@ int main()
 	//*/
 
 	// std::ranges::nth_element C++20
+	// partially sorts the given range making sure that it is partitioned by the given element
 	/*
 	{
 		auto print = [](std::string_view rem, std::ranges::input_range auto const& a)
@@ -2534,6 +2539,7 @@ int main()
 	//*/
 
 	// std::ranges::upper_bound C++20
+	// returns an iterator to the first element greater than a certain value
 	/*
 	{
 		namespace ranges = std::ranges;
@@ -2576,6 +2582,7 @@ int main()
 	//*/
 
 	// std::ranges::binary_search C++20
+	// determines if an element exists in a certain range
 	/*
 	{
 		auto haystack = { 1, 3, 4, 5, 9 };
@@ -2672,6 +2679,7 @@ int main()
 	//*/
 
 	// std::ranges::merge, std::ranges::merge_result C++20
+	// merges two sorted ranges
 	/*
 	{
 		auto print = [](const auto& in1, const auto& in2, auto first, auto last) {
@@ -2727,6 +2735,7 @@ int main()
 	//*/
 
 	// std::ranges::inplace_merge C++20
+	// merges two ordered ranges in-place
 	/*
 	{
 		auto print = [](auto const& v, auto const& rem, int middle = -1)
@@ -2892,6 +2901,7 @@ int main()
 	//*/
 
 	// std::set_intersection
+	// computes the intersection of two sets
 	/*
 	{
 		std::vector<int> v1{ 1,2,3,4,5,6,7,8 };
@@ -2910,6 +2920,7 @@ int main()
 	//*/
 
 	// std::ranges::set_intersection, std::ranges::set_intersection_result C++20
+	// computes the intersection of two sets
 	/*
 	{
 		auto print = [](const auto& v, const auto& rem) {
@@ -2952,6 +2963,7 @@ int main()
 	//*/
 
 	// std::ranges::set_symmetric_difference, std::ranges::set_symmetric_difference_result C++20
+	// computes the symmetric difference between two sets
 	/*
 	{
 		auto visualize_this = [](const auto& v, int min = 1, int max = 9) {
@@ -2976,6 +2988,7 @@ int main()
 	//*/
 
 	// set_union
+	// computes the union of two sets
 	/*
 	{
 		{
@@ -3010,6 +3023,7 @@ int main()
 	//*/
 
 	// std::ranges::set_union, std::ranges::set_union_result C++20
+	// computes the union of two sets
 	/*
 	{
 		auto print = [](const auto& in1, const auto& in2, auto first, auto last) {
@@ -3046,6 +3060,7 @@ int main()
 	/****************************************************************************/
 
 	// std::is_heap
+	// checks if the given range is a max heap
 	/*
 	{
 		std::vector<int> v{ 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9 };
@@ -3067,6 +3082,7 @@ int main()
 	//*/
 
 	// std::ranges::is_heap C++20
+	// checks if the given range is a max heap
 	// ovde ima i print za heap, moze biri korisna
 	/*
 	{
@@ -3142,6 +3158,7 @@ int main()
 	//*/
 
 	// std::ranges::is_heap_until C++20
+	// finds the largest subrange that is a max heap
 	/*
 	{
 		void out(const auto& what, int n = 1) { while (n-- > 0) std::cout << what; }
@@ -3234,6 +3251,7 @@ int main()
 	//*/
 
 	// std::ranges::make_heap C++20
+	// creates a max heap out of a range of elements
 	/*
 	{
 		void draw_heap(auto const& v);
@@ -3311,6 +3329,7 @@ int main()
 	//*/
 
 	// std::ranges::push_heap C++20
+	// adds an element to a max heap
 	/*
 	{
 		void out(const auto& what, int n = 1) {
@@ -3399,6 +3418,7 @@ int main()
 	//*/
 
 	// std::ranges::pop_heap C++20
+	// removes the largest element from a max heap
 	/*
 	{
 		template <class I = int*>
@@ -3453,6 +3473,7 @@ int main()
 	//*/
 
 	// std::ranges::sort_heap C++20
+	// turns a max heap into a range of elements sorted in ascending order
 	/*
 	{
 		void print(auto const& rem, auto const& v)
