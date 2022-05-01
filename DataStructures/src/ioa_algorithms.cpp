@@ -17,6 +17,7 @@ unsigned BinomialCoefficient(const int n, const int k) {
 	return aSolutions[k - 1];
 }
 
+// 
 size_t bellNUmber(const int n, const int k) {
 	size_t result = 0;
 	for (size_t i = 1; i <= n; i++) {
@@ -88,7 +89,7 @@ void varations_with_repetitition(int n, int k)
 }
 
 template <typename T>
-std::vector<std::vector<T>>& varations_with_repetitition(const size_t n, const size_t k, std::vector<std::vector<T>>& result) {
+void varations_with_repetitition(const size_t n, const size_t k, std::vector<std::vector<T>>& result) {
 
 	std::vector<int> P(k, 0);
 	size_t size = pow(n, k);
@@ -111,7 +112,6 @@ std::vector<std::vector<T>>& varations_with_repetitition(const size_t n, const s
 		}
 	} while (q >= 0);
 
-	return result;
 }
 
 /********************************************************************************************/
@@ -165,7 +165,7 @@ void combination_without_repetition(int n, int k) {
 }
 
 template <typename T>
-std::vector<std::vector<T>>& combination_without_repetition(const size_t n, const size_t k, std::vector<std::vector<T>>& result) {
+void combination_without_repetition(const size_t n, const size_t k, std::vector<std::vector<T>>& result) {
 
 	std::vector<int> P(k);
 	std::iota(P.begin(), P.end(), 1); // 1 2 3 ... n
@@ -196,7 +196,6 @@ std::vector<std::vector<T>>& combination_without_repetition(const size_t n, cons
 
 	} while (b);
 
-	return result;
 }
 
 /********************************************************************************************/
@@ -349,7 +348,7 @@ bool next_permutation(std::vector<T>& p, const size_t n) {
 }
 
 template <typename T>
-std::vector<std::vector<T>>& driver_next_partition(const size_t n, std::vector<std::vector<T>>& result) {
+void driver_next_partition(const size_t n, std::vector<std::vector<T>>& result) {
 	std::vector<T> P(n, 0);
 	result.reserve(n); // should be miniumum space for result
 	while (next_permutation(P, n))
@@ -435,8 +434,7 @@ bool next_partition_of_set(std::vector<T>& a, const int n) {
 }
 
 template <typename T>
-void driver_next_partition_of_set(std::vector<T>& set, std::vector<std::vector<T>>& result) {
-	int n = set.size();
+void driver_next_partition_of_set(std::vector<T>& set, int const n, std::vector<std::vector<T>>& result) {
 	std::vector<T> partition(n, 0);
 	//result.reserve(2 * n * n); // should be miniumum space for result
 	result.reserve(bellNUmber(n, n)); // should be miniumum space for result
@@ -725,9 +723,9 @@ int main()
 
 	//driver_next_partition_of_set();
 
-	std::vector vec{ 1 , 2, 3 , 4};
+	std::vector vec{ 1 , 2, 3 , 4 };
 	std::vector<std::vector<int>> result;
-	driver_next_partition_of_set(vec, result);
+	driver_next_partition_of_set(vec, 2, result);
 
 	//test_sequence_to_spanning_tree(); 
 
