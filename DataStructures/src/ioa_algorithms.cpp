@@ -7,14 +7,23 @@
 #include<cmath>
 #include<numeric>
 
-int BinomialCoefficient(const int n, const int k) {
-	std::vector<int> aSolutions(k);
+unsigned BinomialCoefficient(const int n, const int k) {
+	std::vector<unsigned> aSolutions(k);
 	aSolutions[0] = n - k + 1;
 
-	for (int i = 1; i < k; ++i)
+	for (unsigned i = 1; i < k; ++i)
 		aSolutions[i] = aSolutions[i - 1] * (n - k + 1 + i) / (i + 1);
 
 	return aSolutions[k - 1];
+}
+
+size_t bellNUmber(const int n, const int k) {
+	size_t result = 0;
+	for (size_t i = 1; i <= n; i++) {
+		result += BinomialCoefficient(n, i);
+		std::cout << result << "\n";
+	}
+	return result;
 }
 
 /********************************************************************************************/
@@ -401,6 +410,47 @@ void driver_next_partition_of_set()
 	delete[] a;
 }
 
+template <typename T>
+bool next_partition_of_set(std::vector<T>& a, const int n) {
+	//const int n = a.size();
+	std::vector<T> b(n);
+
+	int j;
+	for (j = 0; j < n; j++)
+		b[j] = j == 0 ? 0 : std::max(b[j - 1], a[j - 1] + 1); // sta je ovo 
+
+	for (j = n - 1; j >= 0; j--)
+	{
+		if (a[j] < b[j])
+		{
+			a[j]++;
+			break;
+		}
+		else
+			a[j] = 0;
+	}
+	if (j == -1)
+		return false;
+	return true;
+}
+
+template <typename T>
+void driver_next_partition_of_set(std::vector<T>& set, std::vector<std::vector<T>>& result) {
+	int n = set.size();
+	std::vector<T> partition(n, 0);
+	//result.reserve(2 * n * n); // should be miniumum space for result
+	result.reserve(bellNUmber(n, n)); // should be miniumum space for result
+
+	int i;
+	do
+	{
+		result.push_back(partition);
+		for (i = 0; i < n; i++)	std::cout << partition[i] << " ";
+		std::cout << "\n";
+	} while (next_partition_of_set(partition, n));
+
+}
+
 /********************************************************************************************/
 // particija skupa na tacno m podskupova
 	// saamo uzeti pretnodni algoritam i uzeti one skupove koji potrvrdjuju zahetv m = 2
@@ -600,7 +650,7 @@ void driver_radnom_combination()
 }
 
 /********************************************************************************************/
-// slucajno generisana permitacija
+// slucajno generisana permutacija
 	// iz niza elemenata skucajno se biraju njegovi elem
 		// nema ponavljanja
 
@@ -674,6 +724,10 @@ int main()
 	//std::vector<std::vector<int>> result;	driver_next_partition(7, result);
 
 	//driver_next_partition_of_set();
+
+	std::vector vec{ 1 , 2, 3 , 4};
+	std::vector<std::vector<int>> result;
+	driver_next_partition_of_set(vec, result);
 
 	//test_sequence_to_spanning_tree(); 
 
