@@ -6,6 +6,7 @@
 #include<set>
 #include<cmath>
 #include<numeric>
+#include<memory>
 
 unsigned BinomialCoefficient(const int n, const int k) {
 	std::vector<unsigned> aSolutions(k);
@@ -631,8 +632,7 @@ void random_combinataion(int n, int k, int* P)
 	delete[] Q;
 }
 
-void driver_radnom_combination()
-{
+void driver_radnom_combination() {
 	int n = 5;
 	int k = 3;
 	int* P = new int[k];
@@ -710,11 +710,11 @@ int main()
 	//auto pred = [](std::vector<int>& koka) { std::copy(koka.begin(), koka.end(), std::ostream_iterator<int>(std::cout, " ")); };
 	//permutation_without_repetition(vec, pred);
 
-	//varations_with_repetitition(3, 2);
-	//std::vector<std::vector<int>> resutl;	varations_with_repetitition(2, 2, resutl);
+	//varations_with_repetitition(3, 2); 
+	//std::vector<std::vector<int>> result;	varations_with_repetitition(3, 3, result);
 
 	//combination_without_repetition(5, 3);
-	//std::vector<std::vector<int>> resutl;	combination_without_repetition(3, 2, resutl);
+	//std::vector<std::vector<int>> result;	combination_without_repetition(3, 2, result);
 
 	//permutation_without_repetition();
 
@@ -723,9 +723,9 @@ int main()
 
 	//driver_next_partition_of_set();
 
-	std::vector vec{ 1 , 2, 3 , 4 };
-	std::vector<std::vector<int>> result;
-	driver_next_partition_of_set(vec, 2, result);
+	//std::vector vec{ 1 , 2, 3 , 4 };
+	//std::vector<std::vector<int>> result;
+	//driver_next_partition_of_set(vec, 2, result);
 
 	//test_sequence_to_spanning_tree(); 
 
