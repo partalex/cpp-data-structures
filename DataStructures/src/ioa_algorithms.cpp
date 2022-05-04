@@ -123,7 +123,7 @@ namespace partalex {
 		template <typename T>
 		uint32_t varations_with_repetitition(const uint32_t n, const uint32_t k, const std::vector<T>& reference, std::vector<std::vector<T>>& result) {
 
-			assert(n <= reference.size() && k <= n);
+			assert(n <= reference.size());
 
 			std::vector<uint32_t> P(k, 0);
 			std::vector<T> Pt(k);
@@ -199,17 +199,17 @@ namespace partalex {
 				std::vector<std::vector<uint32_t>> combinations;
 				//combination_without_repetition(4, 3, to_combinate, combinations);
 				combination_without_repetition(4, 3, to_combinate, combinations);
-				print_combinatorics(combinations, "\ncombinations(4,3) - svi podskupovi K3 od skupa N4");
+				//print_combinatorics(combinations, "\ncombinations(4,3) - svi podskupovi K3 od skupa N4");
 
 				std::vector<uint32_t> to_varitation{ 0, 1, 2, 3 };
 				std::vector<std::vector<uint32_t>> variations;
-				varations_with_repetitition(3, 2, to_varitation, variations);
-				print_combinatorics(variations, "\nvariations(3,2) - uredjene n-torke(K2) skupa N3");
+				varations_with_repetitition(2, 4, to_varitation, variations);
+				print_combinatorics(variations, "\nvariations(3,3) - uredjene n-torke(K2) skupa N3");
 
 				std::vector to_permute{ 0, 1, 2 };
 				std::vector<std::vector<int>> permutations;
 				permutation_without_repetition(to_permute, permutations, std::less{});
-				print_combinatorics(permutations, "\npermutations(3) - uredjene n-torke(N3) skupa N3");
+				//print_combinatorics(permutations, "\npermutations(3) - uredjene n-torke(N3) skupa N3");
 			}
 		}
 
